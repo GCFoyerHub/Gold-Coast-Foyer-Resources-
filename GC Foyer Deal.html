@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Foyer Deal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,500;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --pink: #f02d8a;
+    --teal: #00c4b4;
+    --yellow: #f5c400;
+    --white: #f5f0e8;
+    --mid: #1a1a1a;
+    --card: #141414;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,45,138,0.18) 0%, transparent 70%);
+    top: -200px; left: -200px;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,196,180,0.15) 0%, transparent 70%);
+    bottom: -100px; right: -100px;
+    animation: pulse 8s ease-in-out infinite reverse;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 18vw, 14rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero h1 span { color: var(--pink); }
+
+  .hero-sub {
+    max-width: 620px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 300;
+    margin-top: 2rem;
+    color: rgba(245,240,232,0.75);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(245,240,232,0.4), transparent);
+    animation: scrollLine 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 2rem; }
+
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title .accent { color: var(--pink); }
+  .section-title .accent-teal { color: var(--teal); }
+  .section-title .accent-yellow { color: var(--yellow); }
+
+  /* ── THE DEAL ── */
+  .deal-section { background: var(--mid); position: relative; }
+
+  .deal-section::before {
+    content: 'DEAL';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22vw;
+    color: rgba(255,255,255,0.02);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .deal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .deal-text p {
+    font-size: 1.15rem;
+    color: rgba(245,240,232,0.8);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .deal-text p strong {
+    color: var(--white);
+    font-weight: 700;
+  }
+
+  .deal-sides {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .deal-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
+  .deal-card:hover { transform: translateY(-4px); }
+
+  .deal-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .deal-card.staff::before { background: linear-gradient(90deg, var(--teal), transparent); }
+  .deal-card.participants::before { background: linear-gradient(90deg, var(--pink), transparent); }
+
+  .deal-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .deal-card.staff .deal-card-title { color: var(--teal); }
+  .deal-card.participants .deal-card-title { color: var(--pink); }
+
+  .deal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  .tag-teal { background: rgba(0,196,180,0.12); color: var(--teal); border: 1px solid rgba(0,196,180,0.25); }
+  .tag-pink { background: rgba(240,45,138,0.12); color: var(--pink); border: 1px solid rgba(240,45,138,0.25); }
+
+  /* ── 3D SECTION ── */
+  .threed-section { background: var(--black); }
+
+  .threed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .threed-card {
+    background: var(--card);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    cursor: default;
+  }
+
+  .threed-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+
+  .threed-card:nth-child(1) { border-top: 3px solid var(--teal); }
+  .threed-card:nth-child(2) { border-top: 3px solid var(--pink); }
+  .threed-card:nth-child(3) { border-top: 3px solid var(--yellow); }
+
+  .threed-card:nth-child(1):hover { box-shadow: 0 24px 60px rgba(0,196,180,0.2); }
+  .threed-card:nth-child(2):hover { box-shadow: 0 24px 60px rgba(240,45,138,0.2); }
+  .threed-card:nth-child(3):hover { box-shadow: 0 24px 60px rgba(245,196,0,0.2); }
+
+  .threed-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    opacity: 0.12;
+    position: absolute;
+    top: 1rem; right: 1.5rem;
+  }
+
+  .threed-card:nth-child(1) .threed-number { color: var(--teal); }
+  .threed-card:nth-child(2) .threed-number { color: var(--pink); }
+  .threed-card:nth-child(3) .threed-number { color: var(--yellow); }
+
+  .threed-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+    display: block;
+  }
+
+  .threed-d {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    letter-spacing: 0.03em;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .threed-card:nth-child(1) .threed-d { color: var(--teal); }
+  .threed-card:nth-child(2) .threed-d { color: var(--pink); }
+  .threed-card:nth-child(3) .threed-d { color: var(--yellow); }
+
+  .threed-desc {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+  }
+
+  /* ── STEPS ── */
+  .steps-section { background: var(--mid); }
+
+  .steps-track {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 3.5rem;
+    position: relative;
+  }
+
+  .steps-track::before {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--teal), var(--pink), var(--yellow));
+  }
+
+  .step {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    padding: 1.5rem 0 1.5rem 0;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .step.visible { opacity: 1; transform: translateX(0); }
+
+  .step-dot {
+    width: 58px; height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step:nth-child(1) .step-dot { background: rgba(0,196,180,0.15); border: 2px solid var(--teal); }
+  .step:nth-child(2) .step-dot { background: rgba(240,45,138,0.15); border: 2px solid var(--pink); }
+  .step:nth-child(3) .step-dot { background: rgba(245,196,0,0.15); border: 2px solid var(--yellow); }
+  .step:nth-child(4) .step-dot { background: rgba(0,196,180,0.15); border: 2px solid var(--teal); }
+  .step:nth-child(5) .step-dot { background: rgba(240,45,138,0.15); border: 2px solid var(--pink); }
+
+  .step-content h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+    color: var(--white);
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.6;
+  }
+
+  /* ── OFFERS ── */
+  .offers-section { background: var(--black); }
+
+  .offers-intro {
+    max-width: 640px;
+    color: rgba(245,240,232,0.75);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 3.5rem;
+  }
+
+  .offers-intro em {
+    color: var(--teal);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .offers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .offer-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 2rem 1.75rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+
+  .offer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+  }
+
+  .offer-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .offer-card:hover::after { transform: scaleX(1); }
+
+  .offer-card:nth-child(1)::after,
+  .offer-card:nth-child(4)::after { background: var(--teal); }
+  .offer-card:nth-child(2)::after,
+  .offer-card:nth-child(5)::after { background: var(--pink); }
+  .offer-card:nth-child(3)::after,
+  .offer-card:nth-child(6)::after { background: var(--yellow); }
+
+  .offer-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .offer-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+
+  .offer-desc {
+    font-size: 0.87rem;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER BANNER ── */
+  .footer-banner {
+    background: linear-gradient(135deg, var(--teal) 0%, #009d90 50%, var(--pink) 100%);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .footer-banner h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    color: var(--black);
+    line-height: 1;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .footer-banner p {
+    color: rgba(0,0,0,0.65);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .deal-body { grid-template-columns: 1fr; gap: 2rem; }
+    .threed-grid { grid-template-columns: 1fr; }
+    .offers-grid { grid-template-columns: 1fr 1fr; }
+    .steps-track::before { left: 22px; }
+    .step-dot { width: 46px; height: 46px; font-size: 1.1rem; }
+  }
+
+  @media (max-width: 480px) {
+    .offers-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <p class="hero-eyebrow">Gold Coast Foyer</p>
+  <h1>The<br><span>Deal</span></h1>
+  <p class="hero-sub">A mutual commitment between young people and Foyer staff — built on shared opportunity, clear roles, and the belief that thriving is possible for everyone.</p>
+  <div class="scroll-hint">Explore</div>
+</section>
+
+<!-- ── THE DEAL ── -->
+<section class="deal-section">
+  <div class="container">
+    <p class="section-label reveal">What it means</p>
+    <h2 class="section-title reveal">The <span class="accent">Foyer</span><br>Deal</h2>
+
+    <div class="deal-body">
+      <div class="deal-text reveal">
+        <p>The Foyer Deal fosters <strong>mutual responsibility</strong> by clearly defining roles and accountability between young people and the staff who support them.</p>
+        <p>It helps young people <strong>invest in their lives and community</strong>, strengthening ties and relationships that last beyond their time at the Foyer.</p>
+        <p>This isn't a one-way arrangement. <strong>Both sides show up.</strong> Both sides commit. That's what makes it work.</p>
+      </div>
+
+      <div class="deal-sides reveal reveal-delay-1">
+        <div class="deal-card staff">
+          <div class="deal-card-title">Foyer Staff</div>
+          <div class="deal-tags">
+            <span class="tag tag-teal">🔍 Scout</span>
+            <span class="tag tag-teal">🤝 Coach</span>
+            <span class="tag tag-teal">🔗 Promote & Connect</span>
+          </div>
+        </div>
+        <div class="deal-card participants">
+          <div class="deal-card-title">Foyer Participants</div>
+          <div class="deal-tags">
+            <span class="tag tag-pink">🔭 Discover</span>
+            <span class="tag tag-pink">⚙️ Dedication</span>
+            <span class="tag tag-pink">💪 Discipline</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOYER 3D ── -->
+<section class="threed-section">
+  <div class="container">
+    <p class="section-label reveal">Your commitment</p>
+    <h2 class="section-title reveal">The Foyer <span class="accent">3D</span></h2>
+
+    <div class="threed-grid">
+      <div class="threed-card reveal">
+        <span class="threed-number">D1</span>
+        <span class="threed-icon">🔭</span>
+        <div class="threed-d">Discover</div>
+        <p class="threed-desc">Look outward. Explore what's possible. Identify your skills, strengths and potential — and move from simply coping to actively thriving.</p>
+      </div>
+      <div class="threed-card reveal reveal-delay-1">
+        <span class="threed-number">D2</span>
+        <span class="threed-icon">⚙️</span>
+        <div class="threed-d">Dedication</div>
+        <p class="threed-desc">Dedication is about <strong>showing up for your goals</strong> — even when it's hard. It means making a clear decision about what you're working toward and staying the course through setbacks, distractions, and doubt.</p>
+      </div>
+      <div class="threed-card reveal reveal-delay-2">
+        <span class="threed-number">D3</span>
+        <span class="threed-icon">💪</span>
+        <div class="threed-d">Discipline</div>
+        <p class="threed-desc">Discipline is about <strong>what you do every day</strong> — the routines, boundaries and choices that quietly build the life you want. It's less about motivation and more about the systems you create to keep moving forward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TAKING THE STEPS ── -->
+<section class="steps-section">
+  <div class="container">
+    <p class="section-label reveal">The journey</p>
+    <h2 class="section-title reveal">Taking <span class="accent-teal">The</span><br>Steps</h2>
+
+    <div class="steps-track">
+      <div class="step">
+        <div class="step-dot">🚀</div>
+        <div class="step-content">
+          <h3>Coping → Thriving</h3>
+          <p>Move beyond survival mode. The Foyer is your launchpad to a life built on your own terms.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">💡</div>
+        <div class="step-content">
+          <h3>Identify Skills & Potential</h3>
+          <p>Work with staff to uncover what you're good at and what you're capable of — you might surprise yourself.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">🌍</div>
+        <div class="step-content">
+          <h3>Explore Innovation to Learn From</h3>
+          <p>Look at what others are doing. Find inspiration, borrow ideas, and build something uniquely yours.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">🎯</div>
+        <div class="step-content">
+          <h3>Define What Good Looks Like</h3>
+          <p>Get specific about your vision for the future. Vague goals stay dreams — defined goals become plans.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-dot">📈</div>
+        <div class="step-content">
+          <h3>Create Opportunity Spots</h3>
+          <p>With support, actively create the openings you need — in work, education, community, and life.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── THE 6 OFFERS ── -->
+<section class="offers-section">
+  <div class="container">
+    <p class="section-label reveal">What's on the table</p>
+    <h2 class="section-title reveal">The <span class="accent">6</span><br>Offers</h2>
+    <p class="offers-intro reveal">Grounded in <em>social theories of change</em>, the 6 Offers represent the areas where the Foyer actively partners with you — the real, practical support available when you're ready to engage with it.</p>
+
+    <div class="offers-grid">
+      <div class="offer-card reveal">
+        <span class="offer-icon">🎓</span>
+        <div class="offer-title">Education</div>
+        <p class="offer-desc">Access pathways to learning — from completing school to vocational training, university, and everything in between.</p>
+      </div>
+      <div class="offer-card reveal reveal-delay-1">
+        <span class="offer-icon">💼</span>
+        <div class="offer-title">Employment</div>
+        <p class="offer-desc">Build your career story. Get support finding work, developing skills, and creating sustainable income.</p>
+      </div>
+      <div class="offer-card reveal reveal-delay-2">
+        <span class="offer-icon">🏠</span>
+        <div class="offer-title">Housing & Living Skills</div>
+        <p class="offer-desc">Learn how to manage a home, budget, cook, and sustain independent living well beyond the Foyer.</p>
+      </div>
+      <div class="offer-card reveal">
+        <span class="offer-icon">🤝</span>
+        <div class="offer-title">Social Connections</div>
+        <p class="offer-desc">Build relationships that matter — with peers, mentors, and the wider community around you.</p>
+      </div>
+      <div class="offer-card reveal reveal-delay-1">
+        <span class="offer-icon">🏘️</span>
+        <div class="offer-title">Community Participation</div>
+        <p class="offer-desc">Get involved, contribute, and belong. Community is built through presence and participation.</p>
+      </div>
+      <div class="offer-card reveal reveal-delay-2">
+        <span class="offer-icon">❤️</span>
+        <div class="offer-title">Health & Wellbeing</div>
+        <p class="offer-desc">Physical, mental and emotional health are the foundation of everything. Access support to look after yourself.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER BANNER ── -->
+<div class="footer-banner">
+  <h2>Your time starts now.</h2>
+  <p>Discover. Dedicate. Discipline.<br>The deal is yours to make.</p>
+</div>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const steps = document.querySelectorAll('.step');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => observer.observe(el));
+  steps.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
