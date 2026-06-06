@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Real Stories – GC Foyer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0f;
+      --surface:   #16161a;
+      --border:    #2a2a32;
+      --blue:      #4A90D9;
+      --pink:      #E85D8A;
+      --yellow:    #F5C842;
+      --purple:    #9B6DD6;
+      --teal:      #3ECFB2;
+      --text:      #f0eff4;
+      --muted:     #7a7a8a;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .testimonials-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 20px 80px;
+    }
+
+    /* ── HEADER ── */
+    .section-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(52px, 10vw, 88px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .section-title span {
+      color: var(--yellow);
+    }
+
+    .section-subtitle {
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.6;
+      margin-top: 16px;
+      margin-bottom: 48px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+      border-radius: 2px;
+      margin-bottom: 48px;
+    }
+
+    /* ── VIDEO GRID ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    /* First video is featured/large */
+    .video-card.featured {
+      grid-column: 1 / -1;
+    }
+
+    @media (min-width: 600px) {
+      .video-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .video-card.featured {
+        grid-column: 1 / -1;
+      }
+    }
+
+    /* ── VIDEO CARD ── */
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+
+    .video-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-3px);
+    }
+
+    .video-card.featured:hover {
+      border-color: var(--yellow);
+    }
+
+    /* Accent bar on top */
+    .video-card::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+    }
+
+    .video-card.featured::before {
+      background: linear-gradient(90deg, var(--yellow), var(--pink));
+    }
+
+    /* ── EMBED WRAPPER ── */
+    .embed-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      background: #0a0a0c;
+    }
+
+    .embed-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* Placeholder (remove when real iframes added) */
+    .embed-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #0a0a0c;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .embed-placeholder:hover {
+      background: #111114;
+    }
+
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .embed-placeholder:hover .play-btn {
+      background: var(--teal);
+      border-color: var(--teal);
+      transform: scale(1.08);
+    }
+
+    .video-card.featured .embed-placeholder:hover .play-btn {
+      background: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .play-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: white;
+      margin-left: 3px;
+    }
+
+    .placeholder-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── CARD META ── */
+    .card-meta {
+      padding: 18px 20px 20px;
+    }
+
+    .card-tag {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .tag-teal   { background: rgba(62,207,178,0.12); color: var(--teal); }
+    .tag-pink   { background: rgba(232,93,138,0.12); color: var(--pink); }
+    .tag-yellow { background: rgba(245,200,66,0.12); color: var(--yellow); }
+    .tag-blue   { background: rgba(74,144,217,0.12); color: var(--blue); }
+    .tag-purple { background: rgba(155,109,214,0.12); color: var(--purple); }
+
+    .card-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .video-card.featured .card-name {
+      font-size: 28px;
+    }
+
+    .card-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── FOOTER NOTE ── */
+    .section-footer {
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+    }
+
+    .footer-text {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── ANIMATIONS ── */
+    .testimonials-section > * {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .section-eyebrow { animation-delay: 0.05s; }
+    .section-title   { animation-delay: 0.12s; }
+    .section-subtitle { animation-delay: 0.18s; }
+    .divider         { animation-delay: 0.22s; }
+    .video-grid      { animation-delay: 0.3s; }
+    .section-footer  { animation-delay: 0.38s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<section class="testimonials-section">
+
+  <p class="section-eyebrow">From the people who know</p>
+  <h2 class="section-title">Real <span>Stories.</span><br>Real People.</h2>
+  <p class="section-subtitle">Hear directly from people who've lived the Foyer experience — in their own words, on their own terms.</p>
+  <div class="divider"></div>
+
+  <div class="video-grid">
+
+    <!-- FEATURED VIDEO — paste your Vimeo iframe here -->
+    <div class="video-card featured">
+      <div class="embed-wrapper">
+        <iframe src="https://player.vimeo.com/video/880720217?h=f1adfd40c1&title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="FINAL MANDY VIDEO"></iframe>
+      </div>
+      <div class="card-meta">
+        <span class="card-tag tag-yellow">Featured Story</span>
+        <p class="card-name">Mandy, Former Resident</p>
+
+      </div>
+    </div>
+
+    <!-- VIDEO 2 -->
+    <div class="video-card">
+      <div class="embed-wrapper">
+        <iframe src="https://player.vimeo.com/video/1011155576?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Alkira video FINAL"></iframe>
+      </div>
+      <div class="card-meta">
+        <span class="card-tag tag-teal">Resident Story</span>
+        <p class="card-name">Alkira, Former Resident</p>
+
+      </div>
+    </div>
+
+    <!-- VIDEO 3 -->
+    <div class="video-card">
+      <div class="embed-wrapper">
+        <iframe src="https://player.vimeo.com/video/741756074?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="GC Youth Foyer"></iframe>
+      </div>
+      <div class="card-meta">
+        <span class="card-tag tag-purple">Our Story</span>
+        <p class="card-name">The Legacy Mural</p>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="section-footer">
+    <div class="footer-dot"></div>
+    <p class="footer-text">Shared with permission. Names may be changed to protect privacy.</p>
+  </div>
+
+</section>
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+</body>
+</html>
+
