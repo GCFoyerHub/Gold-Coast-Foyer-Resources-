@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advantaged Thinking – GC Foyer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;600;700&family=Barlow:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0d0f;
+      --surface: #16161a;
+      --border:  #2a2a32;
+      --gold:    #F5C842;
+      --teal:    #3ECFB2;
+      --pink:    #E85D8A;
+      --blue:    #4A90D9;
+      --purple:  #9B6DD6;
+      --text:    #f0eff4;
+      --muted:   #7a7a8a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 24px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    /* Radial glow behind hero */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(245,200,66,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.1s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 16vw, 130px);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+
+    .hero-title .gold { color: var(--gold); }
+
+    .hero-rule {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      margin: 32px auto;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.35s forwards;
+    }
+
+    .hero-statement {
+      font-family: 'Barlow', sans-serif;
+      font-size: clamp(17px, 3vw, 21px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      max-width: 560px;
+      line-height: 1.65;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.45s forwards;
+    }
+
+    .hero-statement strong {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--gold);
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.9s forwards;
+    }
+
+    .scroll-cue span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.2); }
+    }
+
+    /* ── FLIP SECTION ── */
+    .flip-section {
+      padding: 80px 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .flip-intro {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .flip-intro h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 7vw, 56px);
+      letter-spacing: 0.03em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .flip-intro p {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* Cards */
+    .flip-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 560px) {
+      .flip-cards { grid-template-columns: 1fr 1fr; }
+      .flip-card:last-child { grid-column: 1 / -1; max-width: 50%; margin: 0 auto; width: 100%; }
+    }
+
+    .flip-card {
+      perspective: 1000px;
+      height: 220px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      padding: 24px;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .flip-front {
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .flip-front::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 12px 12px 0 0;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .flip-back {
+      background: #1a1a10;
+      border: 1px solid rgba(245,200,66,0.25);
+      transform: rotateY(180deg);
+    }
+
+    .flip-back::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      border-radius: 12px 12px 0 0;
+      background: linear-gradient(90deg, var(--gold), var(--teal));
+    }
+
+    .flip-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .flip-front .flip-label { color: var(--muted); }
+    .flip-back .flip-label { color: var(--gold); }
+
+    .flip-question {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .flip-answer {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .flip-hint {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .flip-hint svg {
+      width: 12px; height: 12px;
+      fill: none;
+      stroke: var(--muted);
+      stroke-width: 2;
+    }
+
+    /* ── MANIFESTO ── */
+    .manifesto {
+      padding: 80px 24px;
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .manifesto-line {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 9vw, 72px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      margin-bottom: 6px;
+    }
+
+    .manifesto-line.gold { color: var(--gold); }
+    .manifesto-line.muted-line {
+      font-family: 'Barlow', sans-serif;
+      font-size: clamp(15px, 2.5vw, 18px);
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0;
+      line-height: 1.6;
+      margin-top: 16px;
+      margin-bottom: 0;
+    }
+
+    .manifesto-line.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .manifesto-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--gold);
+      margin: 32px auto;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+
+    .manifesto-divider.visible { opacity: 1; }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 80px 24px 100px;
+      text-align: center;
+    }
+
+    .cta-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--teal), var(--pink));
+    }
+
+    .cta-inner::after {
+      content: 'A';
+      position: absolute;
+      bottom: -20px;
+      right: 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 140px;
+      color: rgba(245,200,66,0.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 8vw, 56px);
+      letter-spacing: 0.03em;
+      color: var(--text);
+      margin-bottom: 16px;
+      line-height: 1;
+    }
+
+    .cta-title span { color: var(--gold); }
+
+    .cta-body {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .cta-body em {
+      font-style: italic;
+      color: var(--text);
+    }
+
+    .cta-badge {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 10px 24px;
+      border-radius: 4px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">A different way to see yourself</p>
+  <h1 class="hero-title">Advantaged<br><span class="gold">Thinking.</span></h1>
+  <div class="hero-rule"></div>
+  <p class="hero-statement">
+    Life doesn't stop being hard.<br>
+    But <strong>how you see yourself</strong> in the middle of it,<br>
+    that's where everything changes.
+  </p>
+  <div class="scroll-cue">
+    <span>Keep reading</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- FLIP CARDS -->
+<section class="flip-section">
+  <div class="flip-intro">
+    <h2>The 7 Tests</h2>
+    <p>Seven ways to check how you're showing up. for others, and for yourself. Tap each card to explore.</p>
+  </div>
+
+  <div class="flip-cards">
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 1</span>
+          <p class="flip-question">How you TALK about people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">The words you use about your neighbours and yourself set the tone for everything. Do your words build people up or quietly write them off? Even in your own head, the language matters.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 2</span>
+          <p class="flip-question">How you UNDERSTAND people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">Do you understand yourself and others through a negative lens? It is easy to see people that way. But that is not the full story. Get curious. Question the assumptions you carry. Look for strengths, for capability, for what might still be possible. That shift changes everything.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 3</span>
+          <p class="flip-question">How you WORK with people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">How do you show up with others? Working with people is not always easy. We are all different. But we are made for connection. Stay curious. Show up on time. Listen. Follow through. Build a reputation you can stand by.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 4</span>
+          <p class="flip-question">How you INVEST in people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">Are you investing in yourself? Showing up, doing the work, building your skills. That is the foundation. From there, the same energy flows outward into your community and the people on the same journey.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 5</span>
+          <p class="flip-question">How you BELIEVE people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">Do you believe you are capable of more? How you see yourself often shows in more ways than you think. When belief is missing, things get reduced. When belief is there, more becomes possible. Back yourself first, then watch how that shifts what you see in others.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 6</span>
+          <p class="flip-question">How you INVOLVE people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">Who you spend time with matters. Not everyone you involve will support your growth. Take notice of who lifts you and who makes things harder. You have a say in that. Bring people into your life who add to where you are going.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="flip-label">Test 7</span>
+          <p class="flip-question">How you CHALLENGE people</p>
+          <span class="flip-hint">
+            <svg viewBox="0 0 24 24"><path d="M4 12h16M12 4l8 8-8 8"/></svg>
+            Tap to flip
+          </span>
+        </div>
+        <div class="flip-back">
+          <span class="flip-label">The shift</span>
+          <p class="flip-answer">This starts with you. Choosing to be an Advantaged Thinker even when it is hard. It means lifting others to do the same and showing up for the Foyer team on the tough days too. That is not weakness. That is the work.</p>
+          <span class="flip-hint">Tap to flip back</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <p class="manifesto-line" data-delay="0">You are not</p>
+  <p class="manifesto-line gold" data-delay="150">your hardest chapter.</p>
+  <div class="manifesto-divider" data-delay="300"></div>
+  <p class="manifesto-line" data-delay="400">You are not</p>
+  <p class="manifesto-line gold" data-delay="550">what happened to you.</p>
+  <div class="manifesto-divider" data-delay="700"></div>
+  <p class="manifesto-line" data-delay="800">You are</p>
+  <p class="manifesto-line gold" data-delay="950">what you choose next.</p>
+  <p class="manifesto-line muted-line" data-delay="1100">That's Advantaged Thinking. Not blind optimism. grounded hope.</p>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <h2 class="cta-title">Still <span>Advantaged.</span></h2>
+    <p class="cta-body">
+      When life gets messy, and it will,<br>
+      you don't have to have it all figured out.<br><br>
+      <em>You just have to keep seeing yourself as someone who can.</em>
+    </p>
+    <span class="cta-badge">That's the work we do together</span>
+  </div>
+</section>
+
+<script>
+  // Scroll-triggered manifesto reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseInt(el.dataset.delay || 0);
+        setTimeout(() => el.classList.add('visible'), delay);
+        observer.unobserve(el);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.manifesto-line, .manifesto-divider').forEach(el => {
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
