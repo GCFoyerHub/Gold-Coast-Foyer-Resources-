@@ -15,7 +15,6 @@
     --purple: #7C3AED;
     --teal:   #0D9488;
     --dark:   #0F1117;
-    --mid:    #1C1F2E;
     --light:  #F4F4F6;
   }
 
@@ -28,11 +27,7 @@
     overflow-x: hidden;
   }
 
-  /* No background blobs */
-
   .wrapper {
-    position: relative;
-    z-index: 1;
     max-width: 900px;
     margin: 0 auto;
     padding: 2rem 1.25rem 4rem;
@@ -40,15 +35,11 @@
 
   /* Header */
   header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 2.5rem;
-    gap: 1rem;
-    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.5s ease both;
   }
 
-  .header-left h1 {
+  header h1 {
     font-size: clamp(3rem, 10vw, 5.5rem);
     font-weight: 900;
     line-height: 0.9;
@@ -57,7 +48,7 @@
     color: #fff;
   }
 
-  .header-left h1 .accent {
+  header h1 .accent {
     display: block;
     background: linear-gradient(90deg, var(--pink), var(--yellow));
     -webkit-background-clip: text;
@@ -65,246 +56,45 @@
     background-clip: text;
   }
 
-  .header-left .subtitle {
+  header .subtitle {
     font-family: 'Cormorant Garamond', serif;
     font-style: italic;
     font-size: 1.1rem;
     color: rgba(244,244,246,0.85);
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
     letter-spacing: 0.02em;
   }
 
-  .nav-controls {
+  /* Colour bar accent */
+  .colour-bar {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    height: 4px;
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 1.5rem 0;
+    gap: 3px;
   }
 
-  .nav-btn {
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: var(--light);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.1rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, transform 0.15s;
-    font-family: 'Barlow Condensed', sans-serif;
+  .colour-bar span {
+    flex: 1;
+    border-radius: 2px;
   }
 
-  .nav-btn:hover {
-    background: rgba(255,255,255,0.15);
-    transform: scale(1.08);
-  }
-
-  .month-label {
-    font-size: 1.05rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #fff;
-    min-width: 140px;
-    text-align: center;
-  }
-
-  /* Status bar */
-  .status-bar {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.85rem;
-    color: rgba(244,244,246,0.65);
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.04em;
-    height: 1.2em;
-  }
-
-  /* Day labels */
-  .day-labels {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-    margin-bottom: 4px;
-  }
-
-  .day-label {
-    text-align: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(244,244,246,0.65);
-    padding: 0.4rem 0;
-  }
-
-  /* Calendar grid */
-  .calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-  }
-
-  .day-cell {
+  /* Calendar embed container */
+  .cal-wrap {
     background: #1a1d2b;
     border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 8px;
-    min-height: 90px;
-    padding: 0.5rem;
-    transition: background 0.2s;
-    position: relative;
+    border-radius: 12px;
     overflow: hidden;
+    animation: fadeUp 0.5s ease 0.15s both;
   }
 
-  .day-cell:hover {
-    background: #22273a;
-  }
-
-  .day-cell.empty {
-    background: transparent;
-    border-color: transparent;
-  }
-
-  .day-cell.today {
-    border-color: var(--yellow);
-    border-width: 2px;
-    background: #1e1d10;
-  }
-
-  .day-cell.today .day-num {
-    background: var(--yellow);
-    color: var(--dark);
-    border-radius: 50%;
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .day-num {
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: rgba(244,244,246,0.85);
-    margin-bottom: 0.35rem;
-    line-height: 1;
-  }
-
-  /* Events */
-  .event-pill {
+  .cal-wrap iframe {
     display: block;
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    padding: 3px 6px;
-    border-radius: 4px;
-    margin-bottom: 3px;
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: default;
-    transition: opacity 0.2s;
+    width: 100%;
+    height: 680px;
+    border: none;
   }
-
-  .event-pill:hover { opacity: 0.85; }
-
-  .color-blue   { background: #1D4ED8; color: #fff; }
-  .color-pink   { background: #EC4899; color: #fff; }
-  .color-yellow { background: #FACC15; color: #0F1117; }
-  .color-purple { background: #7C3AED; color: #fff; }
-  .color-teal   { background: #0D9488; color: #fff; }
-
-  /* More indicator */
-  .more-events {
-    font-size: 0.62rem;
-    font-weight: 700;
-    color: rgba(244,244,246,0.6);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-
-  /* Legend */
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem 1.5rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255,255,255,0.15);
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(244,244,246,0.8);
-  }
-
-  .legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* Setup instructions box */
-  .setup-box {
-    margin-top: 2.5rem;
-    background: rgba(250,204,21,0.06);
-    border: 1px solid rgba(250,204,21,0.2);
-    border-radius: 10px;
-    padding: 1.25rem 1.5rem;
-  }
-
-  .setup-box h3 {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--yellow);
-    margin-bottom: 0.6rem;
-  }
-
-  .setup-box p {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 0.92rem;
-    color: rgba(244,244,246,0.5);
-    line-height: 1.6;
-  }
-
-  .setup-box code {
-    font-family: monospace;
-    font-size: 0.8rem;
-    background: rgba(255,255,255,0.08);
-    padding: 1px 5px;
-    border-radius: 3px;
-    color: var(--yellow);
-  }
-
-  /* Loading state */
-  .loading-shimmer {
-    animation: shimmer 1.5s infinite;
-  }
-
-  @keyframes shimmer {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-  }
-
-  /* Fade in */
-  .calendar-grid, header, .day-labels {
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .calendar-grid { animation-delay: 0.15s; }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
@@ -312,9 +102,7 @@
   }
 
   @media (max-width: 600px) {
-    .day-cell { min-height: 64px; padding: 0.35rem; }
-    .event-pill { font-size: 0.6rem; padding: 2px 4px; }
-    .day-num { font-size: 0.75rem; }
+    .cal-wrap iframe { height: 500px; }
   }
 </style>
 </head>
@@ -322,240 +110,27 @@
 <div class="wrapper">
 
   <header>
-    <div class="header-left">
-      <h1>Foyer<span class="accent">Events</span></h1>
-      <p class="subtitle">What's on this month</p>
-    </div>
-    <div class="nav-controls">
-      <button class="nav-btn" id="prevBtn">&#8592;</button>
-      <div class="month-label" id="monthLabel"></div>
-      <button class="nav-btn" id="nextBtn">&#8594;</button>
-    </div>
+    <h1>Foyer<span class="accent">Events</span></h1>
+    <p class="subtitle">What's on this month</p>
   </header>
 
-  <div class="status-bar" id="statusBar">Loading events...</div>
-
-  <div class="day-labels">
-    <div class="day-label">Mon</div>
-    <div class="day-label">Tue</div>
-    <div class="day-label">Wed</div>
-    <div class="day-label">Thu</div>
-    <div class="day-label">Fri</div>
-    <div class="day-label">Sat</div>
-    <div class="day-label">Sun</div>
+  <div class="colour-bar">
+    <span style="background:var(--blue)"></span>
+    <span style="background:var(--pink)"></span>
+    <span style="background:var(--yellow)"></span>
+    <span style="background:var(--purple)"></span>
+    <span style="background:var(--teal)"></span>
   </div>
 
-  <div class="calendar-grid" id="calGrid"></div>
-
-  <div class="legend" id="legend"></div>
-
-  <!-- Setup instructions — remove this section once your Sheet is connected -->
-  <div class="setup-box" id="setupBox">
-    <h3>Connect your Google Calendar</h3>
-    <p>
-      1. Open Google Calendar → click the <strong>three dots</strong> next to your calendar name on the left.<br><br>
-      2. Click <strong>Settings</strong> → scroll down to <strong>"Secret address in iCal format"</strong> → copy that URL.<br><br>
-      3. Open this HTML file, find the line <code>const ICAL_URL = '';</code> near the top of the script, and paste your URL between the quotes. Save and re-upload — done.
-    </p>
+  <div class="cal-wrap">
+    <iframe
+      src="https://calendar.google.com/calendar/embed?src=b79b4d6421c64feac148900f260cb493ca638805b87e121bf43603b791867d61%40group.calendar.google.com&ctz=Australia%2FBrisbane&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&mode=MONTH"
+      frameborder="0"
+      scrolling="no"
+      allowtransparency="true">
+    </iframe>
   </div>
 
 </div>
-
-<script>
-// ─────────────────────────────────────────────
-// STEP 1: Paste your Google Calendar iCal URL here
-// ─────────────────────────────────────────────
-const ICAL_URL = '<iframe src="https://calendar.google.com/calendar/embed?src=b79b4d6421c64feac148900f260cb493ca638805b87e121bf43603b791867d61%40group.calendar.google.com&ctz=Australia%2FBrisbane" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>';
-// Get it from: Google Calendar → three dots next to your calendar
-// → Settings → "Secret address in iCal format" → copy that URL
-
-// ─────────────────────────────────────────────
-// Colour assignment — events cycle through these
-// ─────────────────────────────────────────────
-const COLOURS = ['blue', 'pink', 'teal', 'purple', 'yellow'];
-
-// ─────────────────────────────────────────────
-// Fallback demo events
-// ─────────────────────────────────────────────
-const DEMO_EVENTS = [
-  { date: '2026-06-10', title: 'Cooking Workshop', colour: 'teal' },
-  { date: '2026-06-12', title: 'Job Readiness', colour: 'blue' },
-  { date: '2026-06-17', title: 'Life Skills', colour: 'pink' },
-  { date: '2026-06-19', title: 'Community BBQ', colour: 'yellow' },
-  { date: '2026-06-24', title: 'Finance Basics', colour: 'purple' },
-  { date: '2026-06-26', title: 'Health & Wellbeing', colour: 'teal' },
-];
-
-// ─────────────────────────────────────────────
-// State
-// ─────────────────────────────────────────────
-const today = new Date();
-let currentYear  = today.getFullYear();
-let currentMonth = today.getMonth();
-let allEvents = [];
-
-// ─────────────────────────────────────────────
-// iCal parser
-// ─────────────────────────────────────────────
-function parseIcal(text) {
-  const events = [];
-  const unfolded = text.replace(/\r\n[ \t]/g, '').replace(/\r\n/g, '\n');
-  const blocks = unfolded.split('BEGIN:VEVENT');
-  let colourIndex = 0;
-
-  blocks.slice(1).forEach(block => {
-    const get = (key) => {
-      const match = block.match(new RegExp(key + '[^:]*:(.+)'));
-      return match ? match[1].trim() : '';
-    };
-
-    const summary = get('SUMMARY');
-    if (!summary) return;
-
-    const dtRaw = get('DTSTART');
-    if (!dtRaw) return;
-
-    let dateStr = '';
-    if (dtRaw.length === 8) {
-      dateStr = dtRaw.slice(0,4) + '-' + dtRaw.slice(4,6) + '-' + dtRaw.slice(6,8);
-    } else {
-      const d = dtRaw.replace(/[TZ]/g, '').replace(/[+-]\d{4}$/, '');
-      dateStr = d.slice(0,4) + '-' + d.slice(4,6) + '-' + d.slice(6,8);
-    }
-
-    events.push({
-      date: dateStr,
-      title: summary.replace(/\\,/g, ',').replace(/\\n/g, ' '),
-      colour: COLOURS[colourIndex % COLOURS.length],
-    });
-    colourIndex++;
-  });
-
-  return events;
-}
-
-// ─────────────────────────────────────────────
-// Fetch events
-// ─────────────────────────────────────────────
-async function fetchEvents() {
-  if (!ICAL_URL) {
-    allEvents = DEMO_EVENTS;
-    document.getElementById('statusBar').textContent = 'Showing demo events — connect your Google Calendar to go live.';
-    return;
-  }
-  try {
-    const proxy = 'https://corsproxy.io/?' + encodeURIComponent(ICAL_URL);
-    const res = await fetch(proxy);
-    if (!res.ok) throw new Error('Fetch failed');
-    const text = await res.text();
-    allEvents = parseIcal(text);
-    document.getElementById('statusBar').textContent = allEvents.length + ' event' + (allEvents.length !== 1 ? 's' : '') + ' loaded from Google Calendar.';
-    document.getElementById('setupBox').style.display = 'none';
-  } catch(e) {
-    allEvents = DEMO_EVENTS;
-    document.getElementById('statusBar').textContent = 'Could not reach calendar — showing demo events.';
-  }
-}
-
-// ─────────────────────────────────────────────
-// Render calendar
-// ─────────────────────────────────────────────
-function renderCalendar(year, month) {
-  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('monthLabel').textContent = monthNames[month] + ' ' + year;
-
-  const grid = document.getElementById('calGrid');
-  grid.innerHTML = '';
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const startOffset = (firstDay + 6) % 7;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  for (let i = 0; i < startOffset; i++) {
-    const blank = document.createElement('div');
-    blank.className = 'day-cell empty';
-    grid.appendChild(blank);
-  }
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const cell = document.createElement('div');
-    cell.className = 'day-cell';
-
-    const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
-    if (isToday) cell.classList.add('today');
-
-    const numEl = document.createElement('div');
-    numEl.className = 'day-num';
-    if (isToday) {
-      const inner = document.createElement('div');
-      inner.style.cssText = 'background:var(--yellow);color:var(--dark);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-weight:800;';
-      inner.textContent = d;
-      numEl.appendChild(inner);
-    } else {
-      numEl.textContent = d;
-    }
-    cell.appendChild(numEl);
-
-    const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
-    const dayEvents = allEvents.filter(e => e.date === dateStr);
-
-    const MAX_VISIBLE = 3;
-    dayEvents.slice(0, MAX_VISIBLE).forEach(ev => {
-      const pill = document.createElement('span');
-      pill.className = 'event-pill color-' + ev.colour;
-      pill.textContent = ev.title;
-      pill.title = ev.title;
-      cell.appendChild(pill);
-    });
-
-    if (dayEvents.length > MAX_VISIBLE) {
-      const more = document.createElement('div');
-      more.className = 'more-events';
-      more.textContent = '+' + (dayEvents.length - MAX_VISIBLE) + ' more';
-      cell.appendChild(more);
-    }
-
-    grid.appendChild(cell);
-  }
-
-  renderLegend();
-}
-
-// ─────────────────────────────────────────────
-// Render legend
-// ─────────────────────────────────────────────
-const COLOUR_HEX = {
-  blue: '#1D4ED8', pink: '#EC4899', yellow: '#FACC15', purple: '#7C3AED', teal: '#0D9488'
-};
-
-function renderLegend() {
-  const legend = document.getElementById('legend');
-  legend.innerHTML = '';
-}
-
-// ─────────────────────────────────────────────
-// Nav
-// ─────────────────────────────────────────────
-document.getElementById('prevBtn').addEventListener('click', () => {
-  currentMonth--;
-  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-  renderCalendar(currentYear, currentMonth);
-});
-
-document.getElementById('nextBtn').addEventListener('click', () => {
-  currentMonth++;
-  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-  renderCalendar(currentYear, currentMonth);
-});
-
-// ─────────────────────────────────────────────
-// Init
-// ─────────────────────────────────────────────
-(async () => {
-  await fetchEvents();
-  renderCalendar(currentYear, currentMonth);
-})();
-
-</script>
 </body>
 </html>
